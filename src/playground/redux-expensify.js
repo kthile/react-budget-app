@@ -105,15 +105,30 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
   }
 };
 
-//get visible expense
-const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate}) => {
-  return expenses.filter((expense)=>{
-        const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
-        const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate;;
-        const textMatch = true;
+//get visible expenses, uses both reducers
+//grab the expense object and filter its various properties based on argument
+const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
+  return expenses
+    .filter(expense => {
+      const startDateMatch =
+        typeof startDate !== "number" || expense.createdAt >= startDate;
+      const endDateMatch =
+        typeof endDate !== "number" || expense.createdAt <= endDate;
+      const textMatch =
+        typeof text !== "string" ||
+        expense.description.toLowerCase().includes(text.toLowerCase());
 
-        return startDateMatch && endDateMatch && textMatch;
-  });
+      return startDateMatch && endDateMatch && textMatch;
+    })
+    .sort((a, b) => {
+      if (sortBy === "date") {
+        return a.createdAt < b.createdAt ? 1 : -1;
+      } else if (sortBy === "amount") {
+        return a.amount < b.amount ? 1 : -1;
+      } else{
+          console.log("no matching condition")
+      }
+    });
 };
 
 //store create
@@ -131,13 +146,15 @@ store.subscribe(() => {
   console.log(visibleExpenses);
 });
 
-
 const expenseOne = store.dispatch(
-  addExpense({ description: "Rent", amount: "100", createdAt: 1000 })
+  addExpense({ description: "Rent", amount: "100", createdAt: -21000 })
 );
 const expenseTwo = store.dispatch(
-  addExpense({ description: "Meal", amount: "200", createdAt: -1000 })
+  addExpense({ description: "coffee", amount: "200", createdAt: -1000 })
 );
+
+
+store.dispatch(sortByAmount());
 /*
 store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }));
@@ -150,7 +167,7 @@ store.dispatch(setStartDate());
 store.dispatch(setEndDate(155));
 store.dispatch(setEndDate());
 */
-store.dispatch(setStartDate(125));
+//store.dispatch(setStartDate(125));
 //state
 const demoState = {
   expenses: [
