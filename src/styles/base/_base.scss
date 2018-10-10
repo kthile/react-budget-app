@@ -31,6 +31,15 @@ ul {
 .is-active {
   font-weight: bold;
 }
+.expense-list-item {
+  display: flex;
+  flex-flow: column nowrap;
+  align-content: center;
+  max-width: 50%;
+  border: 1px solid rgb(105, 102, 102);
+  background: rgb(241, 238, 238);
+
+}
 /* Testing */
 
 button {
