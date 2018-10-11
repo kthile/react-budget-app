@@ -15,9 +15,7 @@ const store = configureStore();
 //actions
 store.dispatch(addExpense({ description: "Water Bill", amount: 4500 }));
 store.dispatch(addExpense({ description: "Gas Bill", createdAt: 1000 }));
-store.dispatch(
-  addExpense({ description: "Rent", amount: 109500 })
-);
+store.dispatch(addExpense({ description: "Rent", amount: 109500 }));
 
 //grab state and log visibleExpenses
 const state = store.getState();

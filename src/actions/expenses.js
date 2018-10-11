@@ -1,7 +1,7 @@
 import uuid from "uuid";
 
-//Expense Actions
-const addExpense = ({
+// ADD_EXPENSE
+export const addExpense = ({
   description = "",
   note = "",
   amount = 0,
@@ -16,14 +16,16 @@ const addExpense = ({
     createdAt
   }
 });
-const removeExpense = ({ id: id } = {}) => ({
+
+// REMOVE_EXPENSE
+export const removeExpense = ({ id } = {}) => ({
   type: "REMOVE_EXPENSE",
   id
 });
-const editExpense = (id, updates) => ({
+
+// EDIT_EXPENSE
+export const editExpense = (id, updates) => ({
   type: "EDIT_EXPENSE",
   id,
   updates
 });
-
-export { addExpense, removeExpense, editExpense };
